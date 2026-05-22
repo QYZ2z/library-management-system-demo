@@ -1,0 +1,46 @@
+# =================== IDE ===================
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Eclipse / STS ###
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.apt_generated
+
+# =================== OS ===================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# =================== Build Output ===================
+target/
+build/
+dist/
+out/
+
+# =================== Dependencies ===================
+node_modules/
+
+# =================== Logs ===================
+*.log
+*.log.*
+
+# =================== Temp & Misc ===================
+*.swp
+*.swo
+*~
+*.bak
+*.xml.versionsBackup
+
+# =================== Env Overrides ===================
+.env.local
+.env.*.local
