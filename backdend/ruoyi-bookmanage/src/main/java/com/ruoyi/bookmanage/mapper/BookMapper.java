@@ -2,6 +2,8 @@ package com.ruoyi.bookmanage.mapper;
 
 import java.util.List;
 import com.ruoyi.bookmanage.domain.Book;
+import com.ruoyi.bookmanage.domain.vo.BookVo;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 书籍管理Mapper接口
@@ -9,6 +11,7 @@ import com.ruoyi.bookmanage.domain.Book;
  * @author ruoyi
  * @date 2026-05-21
  */
+@Mapper
 public interface BookMapper 
 {
     /**
@@ -27,6 +30,13 @@ public interface BookMapper
      */
     public List<Book> selectBookList(Book book);
 
+    /**
+     * 查询书籍管理列表
+     *
+     * @param book 书籍管理
+     * @return 书籍管理集合
+     */
+    public List<BookVo> selectBookVoList(Book book);
     /**
      * 新增书籍管理
      * 

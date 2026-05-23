@@ -2,6 +2,7 @@ package com.ruoyi.bookmanage.service;
 
 import java.util.List;
 import com.ruoyi.bookmanage.domain.Book;
+import com.ruoyi.bookmanage.domain.vo.BookVo;
 
 /**
  * 书籍管理Service接口
@@ -26,6 +27,13 @@ public interface IBookService
      * @return 书籍管理集合
      */
     public List<Book> selectBookList(Book book);
+    /**
+     * 查询书籍管理列表
+     *
+     * @param book 书籍管理
+     * @return 书籍管理集合
+     */
+    public List<BookVo> selectBookVoList(Book book);
 
     /**
      * 新增书籍管理

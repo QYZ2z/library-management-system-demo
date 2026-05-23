@@ -1,6 +1,8 @@
 package com.ruoyi.bookmanage.controller;
 
 import java.util.List;
+
+import com.ruoyi.bookmanage.domain.vo.BookVo;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,8 @@ public class BookController extends BaseController
     public TableDataInfo list(Book book)
     {
         startPage();
-        List<Book> list = bookService.selectBookList(book);
+        //List<Book> list = bookService.selectBookList(book);
+        List<BookVo> list = bookService.selectBookVoList(book);
         return getDataTable(list);
     }
 

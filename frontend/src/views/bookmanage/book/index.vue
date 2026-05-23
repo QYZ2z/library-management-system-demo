@@ -17,21 +17,29 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="所属区域ID" prop="regionId">
-        <el-input
-          v-model="queryParams.regionId"
-          placeholder="请输入所属区域ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+
+
+      <!-- 弹窗表单 -->
+      <el-form-item label="所属区域" prop="regionId">
+        <el-select v-model="queryParams.regionId" placeholder="请选择所属区域" @change="handleQuery">
+          <el-option
+              v-for="item in regionList"
+              :key="item.id"
+              :label="item.regionName"
+              :value="item.id" />
+        </el-select>
       </el-form-item>
-      <el-form-item label="所属类别ID" prop="categoryId">
-        <el-input
-          v-model="queryParams.categoryId"
-          placeholder="请输入所属类别ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+
+      <el-form-item label="所属类别" prop="categoryId">
+
+        <el-select v-model="queryParams.categoryId" placeholder="请选择所属区域" @change="handleQuery">
+          <el-option
+              v-for="item in categoryList"
+              :key="item.id"
+              :label="item.categoryName"
+              :value="item.id" />
+        </el-select>
+
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -83,9 +91,9 @@
 
     <el-table v-loading="loading" :data="bookList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="书籍ID" align="center" prop="id" />
+      <el-table-column label="序号" type="index" align="center" prop="id" width="55" />
       <el-table-column label="书籍名称" align="center" prop="bookName" />
-      <el-table-column label="封面图片URL" align="center" prop="cover" width="100">
+      <el-table-column label="封面" align="center" prop="cover" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.cover" :width="50" :height="50"/>
         </template>
@@ -99,8 +107,8 @@
       </el-table-column>
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="数量" align="center" prop="quantity" />
-      <el-table-column label="所属区域ID" align="center" prop="regionId" />
-      <el-table-column label="所属类别ID" align="center" prop="categoryId" />
+      <el-table-column label="所属区域" align="center" prop="regionName" />
+      <el-table-column label="所属类别" align="center" prop="categoryName"/>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
@@ -128,7 +136,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="封面图片URL" prop="cover">
+            <el-form-item label="封面图片" prop="cover">
               <image-upload v-model="form.cover"/>
             </el-form-item>
           </el-col>
@@ -163,14 +171,34 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="所属区域ID" prop="regionId">
-              <el-input v-model="form.regionId" placeholder="请输入所属区域ID" />
+
+            <el-form-item label="所属区域" prop="regionId">
+                <el-select v-model="form.regionId" placeholder="请选择所属区域" @change="handleQuery">
+                  <el-option
+                      v-for="item in regionList"
+                      :key="item.id"
+                      :label="item.regionName"
+                      :value="item.id" />
+                </el-select>
             </el-form-item>
+
           </el-col>
           <el-col :span="24">
-            <el-form-item label="所属类别ID" prop="categoryId">
-              <el-input v-model="form.categoryId" placeholder="请输入所属类别ID" />
-            </el-form-item>
+
+
+              <el-form-item label="所属类别" prop="categoryId">
+
+                <el-select v-model="form.categoryId" placeholder="请选择所属类别" @change="handleQuery">
+                  <el-option
+                      v-for="item in categoryList"
+                      :key="item.id"
+                      :label="item.categoryName"
+                      :value="item.id" />
+                </el-select>
+
+              </el-form-item>
+
+
           </el-col>
           <el-col :span="24">
             <el-form-item label="备注" prop="remark">
@@ -191,6 +219,8 @@
 
 <script setup name="Book">
 import { listBook, getBook, delBook, addBook, updateBook } from "@/api/bookmanage/book"
+import {listRegion} from "@/api/bookmanage/region.js"
+import {listCategory} from "@/api/bookmanage/category.js"
 
 const { proxy } = getCurrentInstance()
 
@@ -242,6 +272,28 @@ function getList() {
     bookList.value = response.rows
     total.value = response.total
     loading.value = false
+  })
+}
+
+const loadAllParams = reactive( {
+  pageNum: 1,
+  pageSize: 1000,
+
+})
+
+/** 查询区域管理列表 */
+const regionList = ref([]);
+function getRegionNameList() {
+  listRegion(loadAllParams).then( response => {
+    regionList.value = response.rows;
+  })
+}
+
+/** 查询类别列表 */
+const categoryList = ref([]);
+function getCategoryNameList() {
+  listCategory(loadAllParams).then( response => {
+    categoryList.value = response.rows;
   })
 }
 
@@ -349,5 +401,8 @@ function handleExport() {
   }, `book_${new Date().getTime()}.xlsx`)
 }
 
+// 末尾加上
+getCategoryNameList()
+getRegionNameList()
 getList()
 </script>

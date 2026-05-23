@@ -1,4 +1,4 @@
-<template>
+ <template>
   <el-drawer title="用户信息详情" v-model="visible" direction="rtl" size="68%" append-to-body :before-close="handleClose" class="detail-drawer">
     <div v-loading="loading" class="drawer-content">
       <!-- 基本信息 -->
